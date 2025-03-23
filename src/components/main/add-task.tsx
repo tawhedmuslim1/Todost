@@ -13,7 +13,9 @@ import {
   AlertDialogDescription,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger
+  AlertDialogTrigger,
+  AlertDialogFooter,
+  AlertDialogCancel
 } from "@/components/ui/alert-dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
@@ -64,44 +66,54 @@ export function AddTaskForm() {
   return (
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
       <AlertDialogTrigger asChild>
-        <Button className="flex items-center gap-2 min-w-xl" variant="outline">
-          <PlusIcon />
+        <Button className="flex items-center gap-2 px-6 py-2 rounded-md shadow-sm">
+          <PlusIcon className="h-4 w-4" />
           Add Task
         </Button>
       </AlertDialogTrigger>
-      <AlertDialogContent>
+      <AlertDialogContent className="max-w-md">
         <AlertDialogHeader>
-          <AlertDialogTitle>Create a new task</AlertDialogTitle>
+          <AlertDialogTitle className="text-xl">Create a new task</AlertDialogTitle>
           <AlertDialogDescription>
             Enter the task you want to add input field below
           </AlertDialogDescription>
-          
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <FormField
-                control={form.control}
-                name="title"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Title</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Task name" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              
+        </AlertDialogHeader>
+        
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Title</FormLabel>
+                  <FormControl>
+                    <Input 
+                      placeholder="Task name" 
+                      className="w-full focus:ring-2 focus:ring-blue-500" 
+                      autoFocus 
+                      {...field} 
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            <AlertDialogFooter className="gap-2 mt-6">
+              <AlertDialogCancel asChild>
+                <Button variant="outline" type="button">Cancel</Button>
+              </AlertDialogCancel>
               <Button 
                 type="submit" 
-                className="w-auto"
+                className="px-6"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? 'Adding...' : 'Add Task'}
               </Button>
-            </form>
-          </Form>
-        </AlertDialogHeader>
+            </AlertDialogFooter>
+          </form>
+        </Form>
       </AlertDialogContent>
     </AlertDialog>
   );

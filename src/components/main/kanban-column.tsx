@@ -25,8 +25,8 @@ export function KanbanColumn({ id, tasks, updatingTasks, draggedTaskId }: Kanban
   return (
     <div
       ref={setNodeRef}
-      className={`min-h-[calc(100vh-14rem)] rounded-md p-2 transition-colors duration-200 ${
-        isOver ? 'bg-gray-100' : 'bg-gray-50'
+      className={`min-h-[calc(100vh-14rem)] rounded-lg p-3 transition-colors duration-200 ${
+        isOver ? 'bg-muted/50' : 'bg-muted/30'
       }`}
     >
       <div className="flex flex-col gap-2">
@@ -40,7 +40,7 @@ export function KanbanColumn({ id, tasks, updatingTasks, draggedTaskId }: Kanban
         ))}
         
         {tasks.length === 0 && (
-          <div className="text-gray-400 text-sm p-4 text-center border-2 border-dashed border-gray-200 rounded-md">
+          <div className="text-muted-foreground text-sm p-4 text-center border-2 border-dashed border-border rounded-md">
             Drop tasks here
           </div>
         )}

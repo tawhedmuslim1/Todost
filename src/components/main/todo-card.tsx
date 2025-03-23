@@ -203,13 +203,13 @@ export function TodoCard({ task }: { task: Task }) {
   if (isDeleted) return null;
 
   return (
-    <Card className={`relative flex items-start justify-between min-w-xl p-4 py-2 rounded-sm ${isPending ? 'opacity-50' : ''}`}>
+    <Card className={`relative flex items-start justify-between p-4 rounded-md border border-gray-200 shadow-sm ${isPending ? 'opacity-50' : ''} hover:shadow-md transition-shadow`}>
       <div className="flex items-center gap-2 justify-between w-full">
-        <div className="flex items-center gap-2 w-full">
+        <div className="flex items-center gap-3 w-full">
             <button 
             onClick={handleToggleCompletion}
             disabled={isPending || isEditSubmitting || isDeleting}
-            className="focus:outline-none cursor-pointer"
+            className="focus:outline-none cursor-pointer flex-shrink-0"
             aria-label={optimisticTask.isCompleted ? "Mark as incomplete" : "Mark as complete"}
             >
             {optimisticTask.isCompleted ? (
@@ -218,8 +218,8 @@ export function TodoCard({ task }: { task: Task }) {
                 <Circle className="h-5 w-5 text-gray-400 hover:text-gray-500 transition-colors" />
             )}
             </button>
-            <h3 className={optimisticTask.isCompleted ? "line-through text-gray-500" : ""}>
-            {optimisticTask.title}
+            <h3 className={`text-sm md:text-base ${optimisticTask.isCompleted ? "line-through text-gray-500" : "text-gray-800"}`}>
+              {optimisticTask.title}
             </h3>
         </div>
 
@@ -229,11 +229,11 @@ export function TodoCard({ task }: { task: Task }) {
                     <Button 
                         variant="ghost" 
                         size="icon" 
-                        className="h-8 w-8" 
+                        className="h-8 w-8 rounded-full hover:bg-gray-100" 
                         aria-label="Edit task"
                         disabled={isDeleting}
                     >
-                        <Pencil className="h-4 w-4" />
+                        <Pencil className="h-4 w-4 text-gray-500" />
                     </Button>
                 </AlertDialogTrigger>
                 <AlertDialogContent>
