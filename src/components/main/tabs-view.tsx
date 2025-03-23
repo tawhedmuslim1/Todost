@@ -11,13 +11,10 @@ interface TabsViewProps {
 }
 
 export function TabsView({ tasks }: TabsViewProps) {
-  const [activeTab, setActiveTab] = useState("list");
-
   return (
     <Tabs 
       defaultValue="list" 
       className="w-max mx-auto" 
-      onValueChange={setActiveTab}
     >
       <div className="flex justify-center">
         <TabsList className="mb-6">

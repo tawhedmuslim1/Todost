@@ -3,7 +3,7 @@
 import { useDroppable } from '@dnd-kit/core';
 import { Task } from '@/actions/task-actions';
 import { KanbanTask } from './kanban-task';
-import { useMemo, useEffect } from 'react';
+import { useEffect } from 'react';
 
 type KanbanColumnProps = {
   id: string;
@@ -16,14 +16,6 @@ export function KanbanColumn({ id, tasks, updatingTasks, draggedTaskId }: Kanban
   const { isOver, setNodeRef } = useDroppable({
     id,
   });
-  
-  // Generate unique keys for each task with memoization to prevent regeneration on renders
-  const taskKeys = useMemo(() => {
-    return tasks.map(task => ({
-      task,
-      key: `${id}-task-${task.id}-${Date.now()}`
-    }));
-  }, [id, tasks]);
 
   // Debug log to check task completion states in this column
   useEffect(() => {

@@ -14,9 +14,7 @@ import {
   UniqueIdentifier
 } from '@dnd-kit/core';
 import { 
-  SortableContext, 
   sortableKeyboardCoordinates,
-  verticalListSortingStrategy 
 } from '@dnd-kit/sortable';
 import { Task, updateTaskStatus } from '@/actions/task-actions';
 import { KanbanColumn } from './kanban-column';
@@ -40,9 +38,6 @@ export function KanbanBoard({ tasks }: KanbanBoardProps) {
   const [editingColumnId, setEditingColumnId] = useState<string | null>(null);
   const [editingTitle, setEditingTitle] = useState('');
   const [draggedTaskOpacity, setDraggedTaskOpacity] = useState<number | null>(null);
-  const [forceUpdateTrigger, setForceUpdateTrigger] = useState(0);
-  
-  // Create refs for each task to track when tasks are being updated
   const updatingTasks = useRef(new Set<number>());
   const tasksRef = useRef<Task[]>([]);
 
@@ -93,7 +88,7 @@ export function KanbanBoard({ tasks }: KanbanBoardProps) {
     });
     
     setColumns(newColumns);
-  }, [tasks]);
+  }, [tasks, columns]);
 
   // Setup DnD sensors
   const sensors = useSensors(
@@ -178,9 +173,6 @@ export function KanbanBoard({ tasks }: KanbanBoardProps) {
         setTimeout(() => {
           updatingTasks.current.delete(taskId);
           setDraggedTaskOpacity(null);
-          
-          // Force a re-render to ensure the task data is refreshed
-          setForceUpdateTrigger(prev => prev + 1);
         }, 800);
       } catch (error) {
         console.error('Failed to update task status:', error);
