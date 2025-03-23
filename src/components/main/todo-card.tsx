@@ -285,13 +285,13 @@ export function TodoCard({ task }: { task: Task }) {
             <AlertDialog open={isConfirmingDelete} onOpenChange={handleDeleteConfirmOpen}>
                 <AlertDialogTrigger asChild>
                     <Button 
-                        variant="destructive" 
+                        variant="ghost" 
                         size="icon" 
-                        className="h-8 w-8 flex items-center justify-center" 
+                        className="h-8 w-8 flex items-center justify-center bg-red-50 hover:bg-red-100 rounded-full" 
                         aria-label="Delete task"
                         disabled={isDeleting || isEditSubmitting}
                     >
-                        <Trash2 className="h-4 w-4" />
+                        <Trash2 className="h-4 w-4 text-red-500" />
                     </Button>
                 </AlertDialogTrigger>
                 <AlertDialogContent className="bg-white">
@@ -306,7 +306,7 @@ export function TodoCard({ task }: { task: Task }) {
                         <AlertDialogAction
                             onClick={handleDelete}
                             disabled={isDeleting}
-                            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                            className="bg-red-500 text-white hover:bg-red-600"
                         >
                             {isDeleting ? 'Deleting...' : 'Delete'}
                         </AlertDialogAction>
