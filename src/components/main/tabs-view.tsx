@@ -3,7 +3,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ClientTaskList } from "./client-task-list";
 import { KanbanBoard } from "./kanban-board";
-import { useState } from "react";
 import { Task } from "@/actions/task-actions";
 
 interface TabsViewProps {
