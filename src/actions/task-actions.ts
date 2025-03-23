@@ -21,7 +21,7 @@ export type Task = {
   updatedAt: Date;
   completedAt: Date | null;
   isCompleted: boolean;
-  status: string;
+  status: 'not_started' | 'in_progress' | 'done';
 };
 
 export async function createTask(values: FormInput) {
@@ -250,7 +250,7 @@ export async function deleteTask(taskId: number) {
   }
 }
 
-export async function updateTaskStatus(taskId: number, status: string) {
+export async function updateTaskStatus(taskId: number, status: 'not_started' | 'in_progress' | 'done') {
   console.log(`updateTaskStatus called with taskId: ${taskId}, status: ${status}`);
   
   try {
@@ -259,7 +259,7 @@ export async function updateTaskStatus(taskId: number, status: string) {
       return { error: "Not authenticated" };
     }
 
-    // Validate the status
+    // Validate the status - redundant now since TypeScript will enforce valid values
     if (!["not_started", "in_progress", "done"].includes(status)) {
       console.error(`Invalid status provided: ${status}`);
       return { error: "Invalid status" };

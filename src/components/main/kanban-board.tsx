@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import {
   DndContext, 
   closestCorners,
@@ -22,16 +22,30 @@ import { KanbanTask } from './kanban-task';
 import { Edit, Check, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useToast } from "@/components/ui/use-toast";
+
+// Define a type for valid task statuses
+export type TaskStatus = 'not_started' | 'in_progress' | 'done';
+
+type ColumnType = {
+  id: string;
+  title: string;
+  taskIds: number[];
+};
+
+type ColumnsType = {
+  [key in TaskStatus]: ColumnType;
+};
 
 type KanbanBoardProps = {
   tasks: Task[]
 }
 
 export function KanbanBoard({ tasks }: KanbanBoardProps) {
-  const [columns, setColumns] = useState({
-    'not_started': { id: 'not_started', title: 'Not Started', taskIds: [] as number[] },
-    'in_progress': { id: 'in_progress', title: 'In Progress', taskIds: [] as number[] },
-    'done': { id: 'done', title: 'Done', taskIds: [] as number[] },
+  const [columns, setColumns] = useState<ColumnsType>({
+    'not_started': { id: 'not_started', title: 'Not Started', taskIds: [] },
+    'in_progress': { id: 'in_progress', title: 'In Progress', taskIds: [] },
+    'done': { id: 'done', title: 'Done', taskIds: [] },
   });
   
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
@@ -40,6 +54,7 @@ export function KanbanBoard({ tasks }: KanbanBoardProps) {
   const [draggedTaskOpacity, setDraggedTaskOpacity] = useState<number | null>(null);
   const updatingTasks = useRef(new Set<number>());
   const tasksRef = useRef<Task[]>([]);
+  const { toast } = useToast();
 
   // Keep a reference to the current tasks
   useEffect(() => {
@@ -51,10 +66,10 @@ export function KanbanBoard({ tasks }: KanbanBoardProps) {
     // Log tasks for debugging
     console.log("Original tasks:", tasks);
     
-    const newColumns = {
-      'not_started': { ...columns['not_started'], title: columns['not_started'].title, taskIds: [] as number[] },
-      'in_progress': { ...columns['in_progress'], title: columns['in_progress'].title, taskIds: [] as number[] },
-      'done': { ...columns['done'], title: columns['done'].title, taskIds: [] as number[] },
+    const newColumns: ColumnsType = {
+      'not_started': { ...columns['not_started'], title: columns['not_started'].title, taskIds: [] },
+      'in_progress': { ...columns['in_progress'], title: columns['in_progress'].title, taskIds: [] },
+      'done': { ...columns['done'], title: columns['done'].title, taskIds: [] },
     };
     
     // Create a Map to track task placements by status
@@ -68,9 +83,10 @@ export function KanbanBoard({ tasks }: KanbanBoardProps) {
     
     // Second pass: place each unique task in the appropriate column
     Object.values(tasksById).forEach(task => {
-      const status = task.status || 'not_started';
+      const status = (task.status || 'not_started') as TaskStatus;
       
-      if (newColumns[status]) {
+      // Check if status is a valid column key
+      if (status in newColumns) {
         newColumns[status].taskIds.push(task.id);
         taskStatusMap.set(task.id, status);
       } else {
@@ -105,7 +121,7 @@ export function KanbanBoard({ tasks }: KanbanBoardProps) {
   };
 
   // Handle drag end
-  const handleDragEnd = async (event: DragEndEvent) => {
+  const handleDragEnd = useCallback(async (event: DragEndEvent) => {
     const { active, over } = event;
     
     if (!over) {
@@ -116,12 +132,12 @@ export function KanbanBoard({ tasks }: KanbanBoardProps) {
     // If dragging a task to a column
     if (active.id.toString().includes('task-') && over.id.toString().includes('column-')) {
       const taskId = parseInt(active.id.toString().replace('task-', ''));
-      const newStatus = over.id.toString().replace('column-', '');
+      const newStatus = over.id.toString().replace('column-', '') as TaskStatus;
       
       // Step 1: Find old status
       const oldStatus = Object.keys(columns).find(status => 
-        columns[status].taskIds.includes(taskId)
-      ) || 'not_started';
+        columns[status as TaskStatus].taskIds.includes(taskId)
+      ) as TaskStatus || 'not_started';
       
       // Don't do anything if it's the same column
       if (oldStatus === newStatus) {
@@ -197,12 +213,12 @@ export function KanbanBoard({ tasks }: KanbanBoardProps) {
     }
     
     setActiveId(null);
-  };
+  }, [columns]);
 
   // Handle column title editing
   const startEditingColumn = (columnId: string) => {
     setEditingColumnId(columnId);
-    setEditingTitle(columns[columnId].title);
+    setEditingTitle(columns[columnId as TaskStatus].title);
   };
 
   const saveColumnTitle = (columnId: string) => {
@@ -210,8 +226,8 @@ export function KanbanBoard({ tasks }: KanbanBoardProps) {
     
     setColumns(prev => ({
       ...prev,
-      [columnId]: {
-        ...prev[columnId],
+      [columnId as TaskStatus]: {
+        ...prev[columnId as TaskStatus],
         title: editingTitle.trim()
       }
     }));
