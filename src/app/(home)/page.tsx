@@ -8,6 +8,7 @@ import { db } from "@/db";
 import { tasks } from "@/db/schema";
 import { currentUser } from "@clerk/nextjs/server";
 import { eq } from "drizzle-orm";
+import { Task } from "@/actions/task-actions";
 
 // Add a loading component for the task list
 function TasksLoading() {
@@ -21,7 +22,7 @@ function TasksLoading() {
 }
 
 // Fetch tasks for the current user
-async function getTasks() {
+async function getTasks(): Promise<Task[]> {
   const user = await currentUser();
   
   if (!user) {
@@ -34,7 +35,11 @@ async function getTasks() {
     .where(eq(tasks.userId, user.id))
     .orderBy(tasks.createdAt);
   
-  return userTasks;
+  // Ensure status is one of the valid types
+  return userTasks.map(task => ({
+    ...task,
+    status: (task.status as 'not_started' | 'in_progress' | 'done') || 'not_started'
+  }));
 }
 
 export default async function Home() {
