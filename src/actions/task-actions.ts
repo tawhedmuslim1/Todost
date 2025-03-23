@@ -70,7 +70,13 @@ export async function getTasks() {
       .where(eq(tasks.userId, user.id))
       .orderBy(desc(tasks.createdAt));
     
-    return { tasks: userTasks };
+    // Ensure all tasks have the correct status type
+    const typedTasks: Task[] = userTasks.map(task => ({
+      ...task,
+      status: (task.status as 'not_started' | 'in_progress' | 'done') || 'not_started'
+    }));
+    
+    return { tasks: typedTasks };
   } catch (error) {
     console.error("Error fetching tasks:", error);
     return { error: "Failed to fetch tasks" };

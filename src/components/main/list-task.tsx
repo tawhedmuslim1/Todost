@@ -1,4 +1,4 @@
-import { getTasks } from "@/actions/task-actions";
+import { getTasks, Task } from "@/actions/task-actions";
 import { TodoCard } from "./todo-card";
 
 export async function TaskList() {
@@ -20,9 +20,15 @@ export async function TaskList() {
     );
   }
 
+  // Ensure tasks have the correct status type
+  const typedTasks: Task[] = result.tasks.map(task => ({
+    ...task,
+    status: (task.status as 'not_started' | 'in_progress' | 'done') || 'not_started'
+  }));
+
   return (
     <div className="flex flex-col gap-2">
-      {result.tasks.map((task) => (
+      {typedTasks.map((task) => (
         <TodoCard key={task.id} task={task} />
       ))}
     </div>
