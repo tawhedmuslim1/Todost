@@ -22,7 +22,6 @@ import { KanbanTask } from './kanban-task';
 import { Edit, Check, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useToast } from "@/components/ui/use-toast";
 
 // Define a type for valid task statuses
 export type TaskStatus = 'not_started' | 'in_progress' | 'done';
@@ -54,7 +53,6 @@ export function KanbanBoard({ tasks }: KanbanBoardProps) {
   const [draggedTaskOpacity, setDraggedTaskOpacity] = useState<number | null>(null);
   const updatingTasks = useRef(new Set<number>());
   const tasksRef = useRef<Task[]>([]);
-  const { toast } = useToast();
 
   // Keep a reference to the current tasks
   useEffect(() => {
