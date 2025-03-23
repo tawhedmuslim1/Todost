@@ -236,7 +236,7 @@ export function TodoCard({ task }: { task: Task }) {
                         <Pencil className="h-4 w-4 text-gray-500" />
                     </Button>
                 </AlertDialogTrigger>
-                <AlertDialogContent>
+                <AlertDialogContent className="bg-white">
                     <AlertDialogHeader>
                     <AlertDialogTitle>Edit task</AlertDialogTitle>
                     <AlertDialogDescription>
@@ -287,14 +287,14 @@ export function TodoCard({ task }: { task: Task }) {
                     <Button 
                         variant="destructive" 
                         size="icon" 
-                        className="h-8 w-8" 
+                        className="h-8 w-8 flex items-center justify-center" 
                         aria-label="Delete task"
                         disabled={isDeleting || isEditSubmitting}
                     >
                         <Trash2 className="h-4 w-4" />
                     </Button>
                 </AlertDialogTrigger>
-                <AlertDialogContent>
+                <AlertDialogContent className="bg-white">
                     <AlertDialogHeader>
                         <AlertDialogTitle>Delete Task</AlertDialogTitle>
                         <AlertDialogDescription>

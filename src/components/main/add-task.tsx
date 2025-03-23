@@ -71,7 +71,7 @@ export function AddTaskForm() {
           Add Task
         </Button>
       </AlertDialogTrigger>
-      <AlertDialogContent className="max-w-md">
+      <AlertDialogContent className="max-w-md bg-white">
         <AlertDialogHeader>
           <AlertDialogTitle className="text-xl">Create a new task</AlertDialogTitle>
           <AlertDialogDescription>

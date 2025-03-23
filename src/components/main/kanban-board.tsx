@@ -22,7 +22,6 @@ import { KanbanTask } from './kanban-task';
 import { Edit, Check, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Card, CardHeader } from '@/components/ui/card';
 
 // Define a type for valid task statuses
 export type TaskStatus = 'not_started' | 'in_progress' | 'done';
@@ -252,15 +251,16 @@ export function KanbanBoard({ tasks }: KanbanBoardProps) {
   };
 
   return (
-    <div className="w-max overflow-x-auto">
+    <div className="w-full">
       <DndContext
         sensors={sensors}
         collisionDetection={closestCorners}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
       >
-        <div className="flex flex-nowrap gap-6 p-4 min-w-max">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-2">
           {Object.entries(columns).map(([columnId, column]) => {
+            const typedColumnId = columnId as TaskStatus;
             // Extract unique tasks for this column
             const columnTasks = column.taskIds
               .map(id => findTaskById(id))
@@ -275,54 +275,47 @@ export function KanbanBoard({ tasks }: KanbanBoardProps) {
             );
             
             return (
-              <div key={columnId} className="w-80 shrink-0">
-                <Card className="mb-3 border shadow-sm">
-                  <CardHeader className="p-3 flex flex-row items-center justify-between space-y-0">
-                    {editingColumnId === columnId ? (
-                      <div className="flex items-center gap-1 w-full">
-                        <Input
-                          value={editingTitle}
-                          onChange={(e) => setEditingTitle(e.target.value)}
-                          className="h-8"
-                          autoFocus
-                        />
-                        <div className="flex shrink-0 gap-1">
-                          <Button 
-                            size="icon" 
-                            variant="ghost" 
-                            onClick={() => saveColumnTitle(columnId)}
-                            className="h-8 w-8"
-                          >
-                            <Check className="h-4 w-4" />
-                          </Button>
-                          <Button 
-                            size="icon" 
-                            variant="ghost" 
-                            onClick={cancelEditingColumn}
-                            className="h-8 w-8"
-                          >
-                            <X className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </div>
-                    ) : (
-                      <>
-                        <h3 className="font-medium text-sm">{column.title}</h3>
-                        <Button 
-                          size="icon" 
-                          variant="ghost" 
-                          onClick={() => startEditingColumn(columnId)}
-                          className="h-8 w-8"
-                        >
-                          <Edit className="h-4 w-4" />
-                        </Button>
-                      </>
-                    )}
-                  </CardHeader>
-                </Card>
+              <div key={typedColumnId} className="w-full bg-slate-50 rounded-lg p-2">
+                <div className="bg-white shadow-sm rounded-md p-2 mb-2 flex items-center justify-between">
+                  {editingColumnId === typedColumnId ? (
+                    <div className="flex items-center gap-2 w-full">
+                      <Input
+                        value={editingTitle}
+                        onChange={(e) => setEditingTitle(e.target.value)}
+                        className="flex-1"
+                        autoFocus
+                      />
+                      <Button 
+                        size="icon" 
+                        variant="ghost" 
+                        onClick={() => saveColumnTitle(typedColumnId)}
+                      >
+                        <Check className="h-4 w-4" />
+                      </Button>
+                      <Button 
+                        size="icon" 
+                        variant="ghost" 
+                        onClick={cancelEditingColumn}
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  ) : (
+                    <>
+                      <h3 className="font-medium">{column.title}</h3>
+                      <Button 
+                        size="icon" 
+                        variant="ghost" 
+                        onClick={() => startEditingColumn(typedColumnId)}
+                      >
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                    </>
+                  )}
+                </div>
                 
                 <KanbanColumn 
-                  id={`column-${columnId}`} 
+                  id={`column-${typedColumnId}`} 
                   tasks={uniqueColumnTasks}
                   updatingTasks={Array.from(updatingTasks.current)}
                   draggedTaskId={draggedTaskOpacity}
@@ -334,7 +327,7 @@ export function KanbanBoard({ tasks }: KanbanBoardProps) {
         
         <DragOverlay>
           {activeId && activeId.toString().includes('task-') && (
-            <div className="opacity-80">
+            <div className="opacity-50">
               <KanbanTask 
                 key={`overlay-${activeId}`}
                 task={findTaskById(parseInt(activeId.toString().replace('task-', ''))) as Task}

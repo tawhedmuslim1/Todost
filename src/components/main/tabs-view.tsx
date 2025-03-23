@@ -13,7 +13,7 @@ export function TabsView({ tasks }: TabsViewProps) {
   return (
     <Tabs 
       defaultValue="list" 
-      className="w-full max-w-2xl mx-auto" 
+      className="w-full max-w-5xl mx-auto" 
     >
       <div className="flex justify-center mb-6">
         <TabsList className="rounded-md">
@@ -34,7 +34,7 @@ export function TabsView({ tasks }: TabsViewProps) {
       <TabsContent value="list" className="w-full max-w-2xl mx-auto">
         <ClientTaskList tasks={tasks} />
       </TabsContent>
-      <TabsContent value="kanban" className="w-full mx-auto overflow-x-auto">
+      <TabsContent value="kanban" className="w-full mx-auto">
         <KanbanBoard tasks={tasks} />
       </TabsContent>
     </Tabs>
