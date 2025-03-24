@@ -2,7 +2,7 @@
 
 import { Task, updateTaskPriority } from "@/actions/task-actions";
 import { TodoCard } from "./todo-card";
-import { Badge } from "../ui/badge";
+import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 import {
   DndContext,
@@ -306,10 +306,7 @@ export function EisenhowerMatrix({ tasks, view }: EisenhowerMatrixProps) {
           x: 0,
           y: 0.2,
         },
-        speed: {
-          x: 10,
-          y: 10,
-        },
+        acceleration: 10,
       }}
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
