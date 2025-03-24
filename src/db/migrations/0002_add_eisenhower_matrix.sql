@@ -1,0 +1,4 @@
+-- Add urgency and importance columns safely
+ALTER TABLE tasks
+ADD COLUMN IF NOT EXISTS is_urgent BOOLEAN NOT NULL DEFAULT FALSE,
+ADD COLUMN IF NOT EXISTS is_important BOOLEAN NOT NULL DEFAULT FALSE; 

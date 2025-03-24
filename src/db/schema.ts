@@ -1,14 +1,21 @@
 // create a schema for the database
-import { pgTable, serial, varchar, timestamp, boolean } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  serial,
+  varchar,
+  timestamp,
+  boolean,
+} from "drizzle-orm/pg-core";
 
 export const tasks = pgTable("tasks", {
-  userId: varchar("user_id", { length: 255 }).notNull(),
   id: serial("id").primaryKey(),
+  userId: varchar("user_id", { length: 255 }).notNull(),
   title: varchar("title", { length: 255 }).notNull(),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+  isCompleted: boolean("is_completed").default(false).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
   completedAt: timestamp("completed_at"),
-  isCompleted: boolean("is_completed").notNull().default(false),
-  status: varchar("status", { length: 50 }).notNull().default('not_started'),
+  status: varchar("status", { length: 50 }).default("not_started").notNull(),
+  isUrgent: boolean("is_urgent").default(false).notNull(),
+  isImportant: boolean("is_important").default(false).notNull(),
 });
-

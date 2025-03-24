@@ -15,6 +15,13 @@
       "when": 1742683766887,
       "tag": "0001_great_justin_hammer",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1742822911278,
+      "tag": "0002_tan_ken_ellis",
+      "breakpoints": true
     }
   ]
 }
