@@ -1,7 +1,14 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  // Try disabling static page generation since that's where the error occurs
+  output: "standalone",
+  experimental: {
+    // Minimize preprocessing during build
+    optimizeCss: false,
+  },
 };
 
-export default nextConfig;
+module.exports = nextConfig;
+
+export const runtime =
+  process.env.NODE_ENV === "development" ? "nodejs" : "edge";
