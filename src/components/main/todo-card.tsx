@@ -1,7 +1,5 @@
 "use client";
 
-//typescript ignore
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   deleteTask,
   Task,
@@ -308,6 +306,31 @@ export function TodoCard({ task }: { task: Task }) {
                   <Trash2 className="h-4 w-4" />
                 </Button>
               </AlertDialogTrigger>
+
+              <AlertDialogContent className="bg-white">
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Delete task</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Are you sure you want to delete this task? This action
+                    cannot be undone.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <div className="flex justify-end gap-2 mt-4">
+                  <Button
+                    variant="outline"
+                    onClick={() => setIsConfirmingDelete(false)}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    variant="destructive"
+                    onClick={handleDelete}
+                    disabled={isDeleting}
+                  >
+                    {isDeleting ? "Deleting..." : "Delete"}
+                  </Button>
+                </div>
+              </AlertDialogContent>
             </AlertDialog>
           </div>
         </div>
