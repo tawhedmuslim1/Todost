@@ -23,8 +23,6 @@ import {
 import { useRouter } from "next/navigation";
 import { Draggable } from "@/components/dnd/draggable";
 import { Droppable } from "@/components/dnd/droppable";
-import { Button } from "@/components/ui/button";
-import { PlusIcon } from "lucide-react";
 import { AddTaskForm } from "./add-task";
 
 interface EisenhowerMatrixProps {

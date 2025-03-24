@@ -1,27 +1,30 @@
 "use client";
 
-import { Card } from "../ui/card";
+//typescript ignore
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
+  deleteTask,
   Task,
   toggleTaskCompletion,
   updateTaskTitle,
-  deleteTask,
 } from "@/actions/task-actions";
-import { Trash2 } from "lucide-react";
-import { CheckCircle, Circle, Pencil } from "lucide-react";
-import { useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
-  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { CheckCircle, Circle, Pencil, Trash2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState, useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
+import { Card } from "../ui/card";
 import {
   Form,
   FormControl,
@@ -31,11 +34,6 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Badge } from "../ui/badge";
 
 // Define schema for the form
 const formSchema = z.object({
