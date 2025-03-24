@@ -3,6 +3,7 @@
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import { GripVertical } from "lucide-react";
+import { CSSProperties } from "react";
 
 interface DraggableProps {
   id: string;
@@ -15,11 +16,11 @@ export function Draggable({ id, children }: DraggableProps) {
       id,
     });
 
-  const style = transform
+  const style: CSSProperties | undefined = transform
     ? {
         transform: CSS.Translate.toString(transform),
         zIndex: isDragging ? 50 : "auto",
-        position: isDragging ? "relative" : "static",
+        position: isDragging ? ("relative" as const) : ("static" as const),
       }
     : undefined;
 
