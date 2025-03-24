@@ -9,6 +9,7 @@ import { tasks } from "@/db/schema";
 import { currentUser } from "@clerk/nextjs/server";
 import { eq } from "drizzle-orm";
 import { Task } from "@/actions/task-actions";
+import { EisenhowerInfo } from "@/components/main/eisenhower-info";
 
 // Add a loading component for the task list
 function TasksLoading() {
@@ -24,32 +25,40 @@ function TasksLoading() {
 // Fetch tasks for the current user
 async function getTasks(): Promise<Task[]> {
   const user = await currentUser();
-  
+
   if (!user) {
     return [];
   }
-  
+
   const userTasks = await db
     .select()
     .from(tasks)
     .where(eq(tasks.userId, user.id))
     .orderBy(tasks.createdAt);
-  
+
   // Ensure status is one of the valid types
-  return userTasks.map(task => ({
+  return userTasks.map((task) => ({
     ...task,
-    status: (task.status as 'not_started' | 'in_progress' | 'done') || 'not_started'
+    status:
+      (task.status as "not_started" | "in_progress" | "done") || "not_started",
   }));
 }
 
 export default async function Home() {
   const userTasks = await getTasks();
-  
+
   return (
     <>
       <SignedIn>
         <div className="flex flex-col gap-6 py-8 px-4 items-center max-w-4xl mx-auto min-h-screen">
-          <h1 className="text-2xl font-bold text-center mb-2">Task Management</h1>
+          <div className="w-full max-w-xl flex flex-col items-center gap-4 mb-2">
+            <h1 className="text-2xl font-bold text-center">Task Management</h1>
+            <p className="text-muted-foreground text-center max-w-md">
+              Organize your tasks using the Eisenhower Matrix to prioritize
+              based on urgency and importance.
+            </p>
+            <EisenhowerInfo />
+          </div>
           <div className="w-full max-w-xl mx-auto flex justify-center">
             <AddTaskForm />
           </div>
@@ -65,8 +74,12 @@ export default async function Home() {
           <div className="text-center max-w-md px-4">
             <h1 className="text-3xl font-bold mb-4">Welcome to Todost</h1>
             <p className="text-gray-600 text-lg mb-6">
-              Todost is a simple and easy-to-use todo list app that helps you stay organized.
+              Todost is a simple and easy-to-use todo list app that helps you
+              stay organized with the Eisenhower Matrix.
             </p>
+            <div className="flex justify-center">
+              <EisenhowerInfo />
+            </div>
           </div>
           <Button size="lg" className="px-8 py-6 text-lg">
             <Link href="/sign-in">Get Started</Link>

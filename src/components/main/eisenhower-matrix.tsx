@@ -23,6 +23,9 @@ import {
 import { useRouter } from "next/navigation";
 import { Draggable } from "@/components/dnd/draggable";
 import { Droppable } from "@/components/dnd/droppable";
+import { Button } from "@/components/ui/button";
+import { PlusIcon } from "lucide-react";
+import { AddTaskForm } from "./add-task";
 
 interface EisenhowerMatrixProps {
   tasks: Task[];
@@ -114,7 +117,7 @@ export function EisenhowerMatrix({ tasks, view }: EisenhowerMatrixProps) {
   if (view === "list") {
     return (
       <div className="space-y-4">
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 mb-4">
           <Badge
             variant={filter === "all" ? "default" : "outline"}
             className="cursor-pointer hover:bg-primary/10"
@@ -166,7 +169,7 @@ export function EisenhowerMatrix({ tasks, view }: EisenhowerMatrixProps) {
           >
             <AccordionItem
               value="urgent-important"
-              className="border rounded-md mb-2"
+              className="border rounded-md mb-2 shadow-sm"
             >
               <AccordionTrigger className="px-4 py-2 hover:bg-muted/50">
                 <div className="flex items-center gap-2">
@@ -176,16 +179,26 @@ export function EisenhowerMatrix({ tasks, view }: EisenhowerMatrixProps) {
                   </Badge>
                 </div>
               </AccordionTrigger>
-              <AccordionContent className="px-4 pt-2 pb-4">
+              <AccordionContent className="px-4 pt-2 pb-4 bg-white">
                 <div className="space-y-2">
                   {urgentImportant.length === 0 ? (
-                    <p className="text-sm text-muted-foreground py-2">
-                      No tasks in this category
-                    </p>
+                    <div className="flex flex-col items-center py-4">
+                      <p className="text-sm text-muted-foreground mb-3">
+                        No tasks in this category
+                      </p>
+                      <AddTaskForm />
+                    </div>
                   ) : (
-                    urgentImportant.map((task) => (
-                      <TodoCard key={task.id} task={task} />
-                    ))
+                    <>
+                      <div className="space-y-2 mb-4">
+                        {urgentImportant.map((task) => (
+                          <TodoCard key={task.id} task={task} />
+                        ))}
+                      </div>
+                      <div className="flex justify-center">
+                        <AddTaskForm />
+                      </div>
+                    </>
                   )}
                 </div>
               </AccordionContent>
@@ -193,7 +206,7 @@ export function EisenhowerMatrix({ tasks, view }: EisenhowerMatrixProps) {
 
             <AccordionItem
               value="not-urgent-important"
-              className="border rounded-md mb-2"
+              className="border rounded-md mb-2 shadow-sm"
             >
               <AccordionTrigger className="px-4 py-2 hover:bg-muted/50">
                 <div className="flex items-center gap-2">
@@ -205,16 +218,26 @@ export function EisenhowerMatrix({ tasks, view }: EisenhowerMatrixProps) {
                   </Badge>
                 </div>
               </AccordionTrigger>
-              <AccordionContent className="px-4 pt-2 pb-4">
+              <AccordionContent className="px-4 pt-2 pb-4 bg-white">
                 <div className="space-y-2">
                   {notUrgentImportant.length === 0 ? (
-                    <p className="text-sm text-muted-foreground py-2">
-                      No tasks in this category
-                    </p>
+                    <div className="flex flex-col items-center py-4">
+                      <p className="text-sm text-muted-foreground mb-3">
+                        No tasks in this category
+                      </p>
+                      <AddTaskForm />
+                    </div>
                   ) : (
-                    notUrgentImportant.map((task) => (
-                      <TodoCard key={task.id} task={task} />
-                    ))
+                    <>
+                      <div className="space-y-2 mb-4">
+                        {notUrgentImportant.map((task) => (
+                          <TodoCard key={task.id} task={task} />
+                        ))}
+                      </div>
+                      <div className="flex justify-center">
+                        <AddTaskForm />
+                      </div>
+                    </>
                   )}
                 </div>
               </AccordionContent>
@@ -222,7 +245,7 @@ export function EisenhowerMatrix({ tasks, view }: EisenhowerMatrixProps) {
 
             <AccordionItem
               value="urgent-not-important"
-              className="border rounded-md mb-2"
+              className="border rounded-md mb-2 shadow-sm"
             >
               <AccordionTrigger className="px-4 py-2 hover:bg-muted/50">
                 <div className="flex items-center gap-2">
@@ -234,16 +257,26 @@ export function EisenhowerMatrix({ tasks, view }: EisenhowerMatrixProps) {
                   </Badge>
                 </div>
               </AccordionTrigger>
-              <AccordionContent className="px-4 pt-2 pb-4">
+              <AccordionContent className="px-4 pt-2 pb-4 bg-white">
                 <div className="space-y-2">
                   {urgentNotImportant.length === 0 ? (
-                    <p className="text-sm text-muted-foreground py-2">
-                      No tasks in this category
-                    </p>
+                    <div className="flex flex-col items-center py-4">
+                      <p className="text-sm text-muted-foreground mb-3">
+                        No tasks in this category
+                      </p>
+                      <AddTaskForm />
+                    </div>
                   ) : (
-                    urgentNotImportant.map((task) => (
-                      <TodoCard key={task.id} task={task} />
-                    ))
+                    <>
+                      <div className="space-y-2 mb-4">
+                        {urgentNotImportant.map((task) => (
+                          <TodoCard key={task.id} task={task} />
+                        ))}
+                      </div>
+                      <div className="flex justify-center">
+                        <AddTaskForm />
+                      </div>
+                    </>
                   )}
                 </div>
               </AccordionContent>
@@ -251,7 +284,7 @@ export function EisenhowerMatrix({ tasks, view }: EisenhowerMatrixProps) {
 
             <AccordionItem
               value="not-urgent-not-important"
-              className="border rounded-md mb-2"
+              className="border rounded-md mb-2 shadow-sm"
             >
               <AccordionTrigger className="px-4 py-2 hover:bg-muted/50">
                 <div className="flex items-center gap-2">
@@ -263,31 +296,51 @@ export function EisenhowerMatrix({ tasks, view }: EisenhowerMatrixProps) {
                   </Badge>
                 </div>
               </AccordionTrigger>
-              <AccordionContent className="px-4 pt-2 pb-4">
+              <AccordionContent className="px-4 pt-2 pb-4 bg-white">
                 <div className="space-y-2">
                   {notUrgentNotImportant.length === 0 ? (
-                    <p className="text-sm text-muted-foreground py-2">
-                      No tasks in this category
-                    </p>
+                    <div className="flex flex-col items-center py-4">
+                      <p className="text-sm text-muted-foreground mb-3">
+                        No tasks in this category
+                      </p>
+                      <AddTaskForm />
+                    </div>
                   ) : (
-                    notUrgentNotImportant.map((task) => (
-                      <TodoCard key={task.id} task={task} />
-                    ))
+                    <>
+                      <div className="space-y-2 mb-4">
+                        {notUrgentNotImportant.map((task) => (
+                          <TodoCard key={task.id} task={task} />
+                        ))}
+                      </div>
+                      <div className="flex justify-center">
+                        <AddTaskForm />
+                      </div>
+                    </>
                   )}
                 </div>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
         ) : (
-          <div className="space-y-2 border rounded-md p-4">
+          <div className="space-y-2 border rounded-md p-4 bg-white shadow-sm">
             {filteredTasks().length === 0 ? (
-              <p className="text-sm text-muted-foreground py-2">
-                No tasks in this category
-              </p>
+              <div className="flex flex-col items-center py-4">
+                <p className="text-sm text-muted-foreground mb-3">
+                  No tasks in this category
+                </p>
+                <AddTaskForm />
+              </div>
             ) : (
-              filteredTasks().map((task) => (
-                <TodoCard key={task.id} task={task} />
-              ))
+              <>
+                <div className="space-y-2 mb-4">
+                  {filteredTasks().map((task) => (
+                    <TodoCard key={task.id} task={task} />
+                  ))}
+                </div>
+                <div className="flex justify-center">
+                  <AddTaskForm />
+                </div>
+              </>
             )}
           </div>
         )}
@@ -309,155 +362,135 @@ export function EisenhowerMatrix({ tasks, view }: EisenhowerMatrixProps) {
         acceleration: 10,
       }}
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Droppable id="urgent-important">
-          <Accordion type="single" collapsible defaultValue="urgent-important">
-            <AccordionItem
-              value="urgent-important"
-              className="border rounded-md"
-            >
-              <AccordionTrigger className="px-4 py-2 bg-green-50 hover:bg-green-100 rounded-t-md">
-                <div className="flex items-center gap-2">
-                  <span className="font-semibold">Do: Urgent & Important</span>
-                  <Badge variant="default" className="ml-2">
-                    {urgentImportant.length}
-                  </Badge>
-                </div>
-              </AccordionTrigger>
-              <AccordionContent className="bg-green-50 rounded-b-md p-4 pt-2">
-                <div className="space-y-2 min-h-[100px]">
-                  {urgentImportant.length === 0 ? (
-                    <p className="text-sm text-muted-foreground py-2">
-                      No tasks in this category
-                    </p>
-                  ) : (
-                    urgentImportant.map((task) => (
-                      <Draggable key={task.id} id={task.id.toString()}>
-                        <TodoCard task={task} />
-                      </Draggable>
-                    ))
-                  )}
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
+          <div className="border rounded-md shadow-md bg-white overflow-hidden">
+            <div className="bg-green-100 px-4 py-3 border-b flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="font-semibold">Do: Urgent & Important</span>
+                <Badge variant="default" className="ml-2">
+                  {urgentImportant.length}
+                </Badge>
+              </div>
+            </div>
+            <div className="p-4 bg-green-50 min-h-[200px]">
+              <div className="space-y-2 mb-4">
+                {urgentImportant.length === 0 ? (
+                  <p className="text-sm text-muted-foreground py-2">
+                    No tasks in this category
+                  </p>
+                ) : (
+                  urgentImportant.map((task) => (
+                    <Draggable key={task.id} id={task.id.toString()}>
+                      <TodoCard task={task} />
+                    </Draggable>
+                  ))
+                )}
+              </div>
+              <div className="flex justify-center pt-2">
+                <AddTaskForm />
+              </div>
+            </div>
+          </div>
         </Droppable>
 
         <Droppable id="not-urgent-important">
-          <Accordion
-            type="single"
-            collapsible
-            defaultValue="not-urgent-important"
-          >
-            <AccordionItem
-              value="not-urgent-important"
-              className="border rounded-md"
-            >
-              <AccordionTrigger className="px-4 py-2 bg-orange-50 hover:bg-orange-100 rounded-t-md">
-                <div className="flex items-center gap-2">
-                  <span className="font-semibold">
-                    Schedule: Not Urgent & Important
-                  </span>
-                  <Badge variant="default" className="ml-2">
-                    {notUrgentImportant.length}
-                  </Badge>
-                </div>
-              </AccordionTrigger>
-              <AccordionContent className="bg-orange-50 rounded-b-md p-4 pt-2">
-                <div className="space-y-2 min-h-[100px]">
-                  {notUrgentImportant.length === 0 ? (
-                    <p className="text-sm text-muted-foreground py-2">
-                      No tasks in this category
-                    </p>
-                  ) : (
-                    notUrgentImportant.map((task) => (
-                      <Draggable key={task.id} id={task.id.toString()}>
-                        <TodoCard task={task} />
-                      </Draggable>
-                    ))
-                  )}
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
+          <div className="border rounded-md shadow-md bg-white overflow-hidden">
+            <div className="bg-orange-100 px-4 py-3 border-b flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="font-semibold">
+                  Schedule: Not Urgent & Important
+                </span>
+                <Badge variant="default" className="ml-2">
+                  {notUrgentImportant.length}
+                </Badge>
+              </div>
+            </div>
+            <div className="p-4 bg-orange-50 min-h-[200px]">
+              <div className="space-y-2 mb-4">
+                {notUrgentImportant.length === 0 ? (
+                  <p className="text-sm text-muted-foreground py-2">
+                    No tasks in this category
+                  </p>
+                ) : (
+                  notUrgentImportant.map((task) => (
+                    <Draggable key={task.id} id={task.id.toString()}>
+                      <TodoCard task={task} />
+                    </Draggable>
+                  ))
+                )}
+              </div>
+              <div className="flex justify-center pt-2">
+                <AddTaskForm />
+              </div>
+            </div>
+          </div>
         </Droppable>
 
         <Droppable id="urgent-not-important">
-          <Accordion
-            type="single"
-            collapsible
-            defaultValue="urgent-not-important"
-          >
-            <AccordionItem
-              value="urgent-not-important"
-              className="border rounded-md"
-            >
-              <AccordionTrigger className="px-4 py-2 bg-blue-50 hover:bg-blue-100 rounded-t-md">
-                <div className="flex items-center gap-2">
-                  <span className="font-semibold">
-                    Delegate: Urgent & Not Important
-                  </span>
-                  <Badge variant="default" className="ml-2">
-                    {urgentNotImportant.length}
-                  </Badge>
-                </div>
-              </AccordionTrigger>
-              <AccordionContent className="bg-blue-50 rounded-b-md p-4 pt-2">
-                <div className="space-y-2 min-h-[100px]">
-                  {urgentNotImportant.length === 0 ? (
-                    <p className="text-sm text-muted-foreground py-2">
-                      No tasks in this category
-                    </p>
-                  ) : (
-                    urgentNotImportant.map((task) => (
-                      <Draggable key={task.id} id={task.id.toString()}>
-                        <TodoCard task={task} />
-                      </Draggable>
-                    ))
-                  )}
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
+          <div className="border rounded-md shadow-md bg-white overflow-hidden">
+            <div className="bg-blue-100 px-4 py-3 border-b flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="font-semibold">
+                  Delegate: Urgent & Not Important
+                </span>
+                <Badge variant="default" className="ml-2">
+                  {urgentNotImportant.length}
+                </Badge>
+              </div>
+            </div>
+            <div className="p-4 bg-blue-50 min-h-[200px]">
+              <div className="space-y-2 mb-4">
+                {urgentNotImportant.length === 0 ? (
+                  <p className="text-sm text-muted-foreground py-2">
+                    No tasks in this category
+                  </p>
+                ) : (
+                  urgentNotImportant.map((task) => (
+                    <Draggable key={task.id} id={task.id.toString()}>
+                      <TodoCard task={task} />
+                    </Draggable>
+                  ))
+                )}
+              </div>
+              <div className="flex justify-center pt-2">
+                <AddTaskForm />
+              </div>
+            </div>
+          </div>
         </Droppable>
 
         <Droppable id="not-urgent-not-important">
-          <Accordion
-            type="single"
-            collapsible
-            defaultValue="not-urgent-not-important"
-          >
-            <AccordionItem
-              value="not-urgent-not-important"
-              className="border rounded-md"
-            >
-              <AccordionTrigger className="px-4 py-2 bg-red-50 hover:bg-red-100 rounded-t-md">
-                <div className="flex items-center gap-2">
-                  <span className="font-semibold">
-                    Delete: Not Urgent & Not Important
-                  </span>
-                  <Badge variant="default" className="ml-2">
-                    {notUrgentNotImportant.length}
-                  </Badge>
-                </div>
-              </AccordionTrigger>
-              <AccordionContent className="bg-red-50 rounded-b-md p-4 pt-2">
-                <div className="space-y-2 min-h-[100px]">
-                  {notUrgentNotImportant.length === 0 ? (
-                    <p className="text-sm text-muted-foreground py-2">
-                      No tasks in this category
-                    </p>
-                  ) : (
-                    notUrgentNotImportant.map((task) => (
-                      <Draggable key={task.id} id={task.id.toString()}>
-                        <TodoCard task={task} />
-                      </Draggable>
-                    ))
-                  )}
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
+          <div className="border rounded-md shadow-md bg-white overflow-hidden">
+            <div className="bg-red-100 px-4 py-3 border-b flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="font-semibold">
+                  Delete: Not Urgent & Not Important
+                </span>
+                <Badge variant="default" className="ml-2">
+                  {notUrgentNotImportant.length}
+                </Badge>
+              </div>
+            </div>
+            <div className="p-4 bg-red-50 min-h-[200px]">
+              <div className="space-y-2 mb-4">
+                {notUrgentNotImportant.length === 0 ? (
+                  <p className="text-sm text-muted-foreground py-2">
+                    No tasks in this category
+                  </p>
+                ) : (
+                  notUrgentNotImportant.map((task) => (
+                    <Draggable key={task.id} id={task.id.toString()}>
+                      <TodoCard task={task} />
+                    </Draggable>
+                  ))
+                )}
+              </div>
+              <div className="flex justify-center pt-2">
+                <AddTaskForm />
+              </div>
+            </div>
+          </div>
         </Droppable>
       </div>
     </DndContext>

@@ -227,155 +227,141 @@ export function TodoCard({ task }: { task: Task }) {
   // If this task has been optimistically deleted, don't render it
   if (isDeleted) return null;
 
+  // Determine badge styling based on priority
+  const priorityBadge = () => {
+    if (optimisticTask.isUrgent && optimisticTask.isImportant) {
+      return (
+        <Badge className="bg-green-500 hover:bg-green-600">Do First</Badge>
+      );
+    } else if (!optimisticTask.isUrgent && optimisticTask.isImportant) {
+      return (
+        <Badge className="bg-orange-500 hover:bg-orange-600">Schedule</Badge>
+      );
+    } else if (optimisticTask.isUrgent && !optimisticTask.isImportant) {
+      return <Badge className="bg-blue-500 hover:bg-blue-600">Delegate</Badge>;
+    } else {
+      return <Badge className="bg-red-500 hover:bg-red-600">Delete</Badge>;
+    }
+  };
+
   return (
-    <Card
-      className={`relative w-full p-4 rounded-md border shadow-sm ${
-        isPending ? "opacity-50" : ""
-      } hover:shadow-md transition-shadow`}
-    >
-      <div className="flex items-start justify-between w-full">
-        <div className="flex flex-col w-full">
-          <div className="flex items-center gap-2">
-            <button
-              onClick={handleToggleCompletion}
-              disabled={isPending || isEditSubmitting || isDeleting}
-              className="focus:outline-none cursor-pointer flex-shrink-0"
-              aria-label={
-                optimisticTask.isCompleted
-                  ? "Mark as incomplete"
-                  : "Mark as complete"
-              }
+    <Card className="border hover:border-primary transition-all duration-200 bg-white shadow-sm">
+      <div className="p-4">
+        <div className="flex items-start justify-between gap-2">
+          <div className="flex items-start gap-3 flex-1 min-w-0">
+            <div
+              className="flex-shrink-0 cursor-pointer mt-1"
+              onClick={() => handleToggleCompletion()}
             >
               {optimisticTask.isCompleted ? (
-                <CheckCircle className="h-5 w-5 text-green-500 hover:text-green-600 transition-colors" />
+                <CheckCircle
+                  className="h-5 w-5 text-green-500 hover:text-green-600 transition-colors"
+                  strokeWidth={2}
+                />
               ) : (
-                <Circle className="h-5 w-5 text-gray-400 hover:text-gray-500 transition-colors" />
+                <Circle
+                  className="h-5 w-5 text-gray-400 hover:text-gray-500 transition-colors"
+                  strokeWidth={2}
+                />
               )}
-            </button>
-            <h3
-              className={`text-sm md:text-base ${
-                optimisticTask.isCompleted
-                  ? "line-through text-gray-500"
-                  : "text-gray-800"
-              }`}
-            >
-              {optimisticTask.title}
-            </h3>
-          </div>
-
-          {/* Priority badges */}
-          <div className="flex mt-2 gap-2">
-            {optimisticTask.isUrgent && (
-              <Badge variant="destructive" className="text-xs">
-                Urgent
-              </Badge>
-            )}
-            {optimisticTask.isImportant && (
-              <Badge variant="default" className="text-xs">
-                Important
-              </Badge>
-            )}
-          </div>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <AlertDialog open={isEditing} onOpenChange={handleEditOpen}>
-            <AlertDialogTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8 rounded-full hover:bg-gray-100"
-                aria-label="Edit task"
-                disabled={isDeleting}
+            </div>
+            <div className="flex-1 min-w-0">
+              <p
+                className={`font-medium break-words ${
+                  optimisticTask.isCompleted
+                    ? "line-through text-gray-500"
+                    : "text-gray-900"
+                }`}
               >
-                <Pencil className="h-4 w-4 text-gray-500" />
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent className="bg-white">
-              <AlertDialogHeader>
-                <AlertDialogTitle>Edit task</AlertDialogTitle>
-                <AlertDialogDescription>
-                  Update the task title
-                </AlertDialogDescription>
-
-                <Form {...form}>
-                  <form
-                    onSubmit={(e) => {
-                      try {
-                        form.handleSubmit(handleEditSubmit)(e);
-                      } catch (error) {
-                        console.error("Form submission error:", error);
-                        setError("Error submitting form");
-                      }
-                    }}
-                    className="space-y-8 mt-2"
+                {optimisticTask.title}
+              </p>
+              <div className="flex flex-wrap gap-2 mt-2">
+                {priorityBadge()}
+                {optimisticTask.isCompleted && (
+                  <Badge
+                    variant="outline"
+                    className="text-green-600 border-green-200 bg-green-50"
                   >
-                    <FormField
-                      control={form.control}
-                      name="title"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Title</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Task name" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <Button
-                      type="submit"
-                      className="w-full"
-                      disabled={isEditSubmitting}
-                    >
-                      {isEditSubmitting ? "Updating..." : "Update Task"}
-                    </Button>
-                  </form>
-                </Form>
-              </AlertDialogHeader>
-            </AlertDialogContent>
-          </AlertDialog>
-
-          <AlertDialog
-            open={isConfirmingDelete}
-            onOpenChange={handleDeleteConfirmOpen}
-          >
-            <AlertDialogTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-8 w-8 flex items-center justify-center bg-red-50 hover:bg-red-100 rounded-full"
-                aria-label="Delete task"
-                disabled={isDeleting || isEditSubmitting}
-              >
-                <Trash2 className="h-4 w-4 text-red-500" />
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent className="bg-white">
-              <AlertDialogHeader>
-                <AlertDialogTitle>Delete Task</AlertDialogTitle>
-                <AlertDialogDescription>
-                  Are you sure you want to delete this task? This action cannot
-                  be undone.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel disabled={isDeleting}>
-                  Cancel
-                </AlertDialogCancel>
-                <AlertDialogAction
-                  onClick={handleDelete}
-                  disabled={isDeleting}
-                  className="bg-red-500 text-white hover:bg-red-600"
+                    Completed
+                  </Badge>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center gap-1 flex-shrink-0">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8 text-gray-500 hover:text-gray-900"
+              onClick={() => handleEditOpen(true)}
+            >
+              <Pencil className="h-4 w-4" />
+            </Button>
+            <AlertDialog
+              open={isConfirmingDelete}
+              onOpenChange={handleDeleteConfirmOpen}
+            >
+              <AlertDialogTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 text-gray-500 hover:text-red-600"
                 >
-                  {isDeleting ? "Deleting..." : "Delete"}
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </AlertDialogTrigger>
+            </AlertDialog>
+          </div>
         </div>
       </div>
+
+      {/* Edit Dialog */}
+      <AlertDialog open={isEditing} onOpenChange={handleEditOpen}>
+        <AlertDialogContent className="bg-white">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Edit task</AlertDialogTitle>
+            <AlertDialogDescription>
+              Update the task title
+            </AlertDialogDescription>
+
+            <Form {...form}>
+              <form
+                onSubmit={(e) => {
+                  try {
+                    form.handleSubmit(handleEditSubmit)(e);
+                  } catch (error) {
+                    console.error("Form submission error:", error);
+                    setError("Error submitting form");
+                  }
+                }}
+                className="space-y-8 mt-2"
+              >
+                <FormField
+                  control={form.control}
+                  name="title"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Title</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Task name" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <Button
+                  type="submit"
+                  className="w-full"
+                  disabled={isEditSubmitting}
+                >
+                  {isEditSubmitting ? "Updating..." : "Update Task"}
+                </Button>
+              </form>
+            </Form>
+          </AlertDialogHeader>
+        </AlertDialogContent>
+      </AlertDialog>
 
       {error && (
         <div className="text-sm text-red-500 mt-1 absolute bottom-1 left-4">

@@ -3,7 +3,7 @@
 import { Logo } from "@/components/logo";
 import { SignedIn, SignedOut, UserButton, SignInButton } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
-import { ThemeToggle } from "@/components/theme/theme-toggle";
+// import { ThemeToggle } from "@/components/theme/theme-toggle";
 
 export function Navbar() {
   return (
@@ -11,7 +11,7 @@ export function Navbar() {
       <Logo />
 
       <div className="flex items-center gap-4">
-        <ThemeToggle />
+        {/* <ThemeToggle /> */}
         <SignedIn>
           <UserButton />
         </SignedIn>

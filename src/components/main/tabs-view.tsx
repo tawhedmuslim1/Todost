@@ -3,6 +3,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ClientTaskList } from "./client-task-list";
 import { KanbanBoard } from "./kanban-board";
+import { EisenhowerMatrix } from "./eisenhower-matrix";
 import { Task } from "@/actions/task-actions";
 
 interface TabsViewProps {
@@ -11,23 +12,26 @@ interface TabsViewProps {
 
 export function TabsView({ tasks }: TabsViewProps) {
   return (
-    <Tabs 
-      defaultValue="list" 
-      className="w-full max-w-5xl mx-auto" 
-    >
+    <Tabs defaultValue="list" className="w-full max-w-5xl mx-auto">
       <div className="flex justify-center mb-6">
         <TabsList className="rounded-md">
-          <TabsTrigger 
-            value="list" 
+          <TabsTrigger
+            value="list"
             className="px-6 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
           >
             List View
           </TabsTrigger>
-          <TabsTrigger 
-            value="kanban" 
+          <TabsTrigger
+            value="kanban"
             className="px-6 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
           >
             Kanban View
+          </TabsTrigger>
+          <TabsTrigger
+            value="eisenhower"
+            className="px-6 py-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+          >
+            Eisenhower Matrix
           </TabsTrigger>
         </TabsList>
       </div>
@@ -37,6 +41,9 @@ export function TabsView({ tasks }: TabsViewProps) {
       <TabsContent value="kanban" className="w-full mx-auto">
         <KanbanBoard tasks={tasks} />
       </TabsContent>
+      <TabsContent value="eisenhower" className="w-full mx-auto">
+        <EisenhowerMatrix tasks={tasks} view="list" />
+      </TabsContent>
     </Tabs>
   );
-} 
+}
