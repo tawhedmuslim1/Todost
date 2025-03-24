@@ -118,7 +118,7 @@ export function EisenhowerMatrix({ tasks, view }: EisenhowerMatrixProps) {
         <div className="flex flex-wrap gap-2 mb-4">
           <Badge
             variant={filter === "all" ? "default" : "outline"}
-            className="cursor-pointer hover:bg-primary/10"
+            className="cursor-pointer hover:bg-primary/10 dark:hover:bg-primary/20"
             onClick={() => setFilter("all")}
           >
             All
@@ -169,7 +169,7 @@ export function EisenhowerMatrix({ tasks, view }: EisenhowerMatrixProps) {
               value="urgent-important"
               className="border rounded-md mb-2 shadow-sm"
             >
-              <AccordionTrigger className="px-4 py-2 hover:bg-muted/50">
+              <AccordionTrigger className="px-4 py-2 bg-green-50 dark:bg-green-900 hover:bg-green-100 dark:hover:bg-green-800 rounded-t-md">
                 <div className="flex items-center gap-2">
                   <span className="font-semibold">Do: Urgent & Important</span>
                   <Badge variant="default" className="ml-2">
@@ -177,11 +177,11 @@ export function EisenhowerMatrix({ tasks, view }: EisenhowerMatrixProps) {
                   </Badge>
                 </div>
               </AccordionTrigger>
-              <AccordionContent className="px-4 pt-2 pb-4 bg-white">
+              <AccordionContent className="bg-green-50 dark:bg-green-900/40 rounded-b-md p-4 pt-2">
                 <div className="space-y-2">
                   {urgentImportant.length === 0 ? (
                     <div className="flex flex-col items-center py-4">
-                      <p className="text-sm text-muted-foreground mb-3">
+                      <p className="text-sm text-muted-foreground dark:text-gray-300 py-2">
                         No tasks in this category
                       </p>
                       <AddTaskForm />
@@ -206,7 +206,7 @@ export function EisenhowerMatrix({ tasks, view }: EisenhowerMatrixProps) {
               value="not-urgent-important"
               className="border rounded-md mb-2 shadow-sm"
             >
-              <AccordionTrigger className="px-4 py-2 hover:bg-muted/50">
+              <AccordionTrigger className="px-4 py-2 bg-orange-50 dark:bg-orange-900 hover:bg-orange-100 dark:hover:bg-orange-800 rounded-t-md">
                 <div className="flex items-center gap-2">
                   <span className="font-semibold">
                     Schedule: Not Urgent & Important
@@ -216,11 +216,11 @@ export function EisenhowerMatrix({ tasks, view }: EisenhowerMatrixProps) {
                   </Badge>
                 </div>
               </AccordionTrigger>
-              <AccordionContent className="px-4 pt-2 pb-4 bg-white">
+              <AccordionContent className="bg-orange-50 dark:bg-orange-900/40 rounded-b-md p-4 pt-2">
                 <div className="space-y-2">
                   {notUrgentImportant.length === 0 ? (
                     <div className="flex flex-col items-center py-4">
-                      <p className="text-sm text-muted-foreground mb-3">
+                      <p className="text-sm text-muted-foreground dark:text-gray-300 py-2">
                         No tasks in this category
                       </p>
                       <AddTaskForm />
@@ -245,7 +245,7 @@ export function EisenhowerMatrix({ tasks, view }: EisenhowerMatrixProps) {
               value="urgent-not-important"
               className="border rounded-md mb-2 shadow-sm"
             >
-              <AccordionTrigger className="px-4 py-2 hover:bg-muted/50">
+              <AccordionTrigger className="px-4 py-2 bg-blue-50 dark:bg-blue-900 hover:bg-blue-100 dark:hover:bg-blue-800 rounded-t-md">
                 <div className="flex items-center gap-2">
                   <span className="font-semibold">
                     Delegate: Urgent & Not Important
@@ -255,11 +255,11 @@ export function EisenhowerMatrix({ tasks, view }: EisenhowerMatrixProps) {
                   </Badge>
                 </div>
               </AccordionTrigger>
-              <AccordionContent className="px-4 pt-2 pb-4 bg-white">
+              <AccordionContent className="bg-blue-50 dark:bg-blue-900/40 rounded-b-md p-4 pt-2">
                 <div className="space-y-2">
                   {urgentNotImportant.length === 0 ? (
                     <div className="flex flex-col items-center py-4">
-                      <p className="text-sm text-muted-foreground mb-3">
+                      <p className="text-sm text-muted-foreground dark:text-gray-300 py-2">
                         No tasks in this category
                       </p>
                       <AddTaskForm />
@@ -284,7 +284,7 @@ export function EisenhowerMatrix({ tasks, view }: EisenhowerMatrixProps) {
               value="not-urgent-not-important"
               className="border rounded-md mb-2 shadow-sm"
             >
-              <AccordionTrigger className="px-4 py-2 hover:bg-muted/50">
+              <AccordionTrigger className="px-4 py-2 bg-red-50 dark:bg-red-900 hover:bg-red-100 dark:hover:bg-red-800 rounded-t-md">
                 <div className="flex items-center gap-2">
                   <span className="font-semibold">
                     Delete: Not Urgent & Not Important
@@ -294,11 +294,11 @@ export function EisenhowerMatrix({ tasks, view }: EisenhowerMatrixProps) {
                   </Badge>
                 </div>
               </AccordionTrigger>
-              <AccordionContent className="px-4 pt-2 pb-4 bg-white">
+              <AccordionContent className="bg-red-50 dark:bg-red-900/40 rounded-b-md p-4 pt-2">
                 <div className="space-y-2">
                   {notUrgentNotImportant.length === 0 ? (
                     <div className="flex flex-col items-center py-4">
-                      <p className="text-sm text-muted-foreground mb-3">
+                      <p className="text-sm text-muted-foreground dark:text-gray-300 py-2">
                         No tasks in this category
                       </p>
                       <AddTaskForm />
@@ -320,10 +320,10 @@ export function EisenhowerMatrix({ tasks, view }: EisenhowerMatrixProps) {
             </AccordionItem>
           </Accordion>
         ) : (
-          <div className="space-y-2 border rounded-md p-4 bg-white shadow-sm">
+          <div className="space-y-2 border rounded-md p-4 bg-white dark:bg-gray-800 shadow-sm dark:border-gray-700">
             {filteredTasks().length === 0 ? (
               <div className="flex flex-col items-center py-4">
-                <p className="text-sm text-muted-foreground mb-3">
+                <p className="text-sm text-muted-foreground dark:text-gray-300 py-2">
                   No tasks in this category
                 </p>
                 <AddTaskForm />
@@ -360,21 +360,23 @@ export function EisenhowerMatrix({ tasks, view }: EisenhowerMatrixProps) {
         acceleration: 10,
       }}
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-2 gap-4 mb-8">
         <Droppable id="urgent-important">
-          <div className="border rounded-md shadow-md bg-white overflow-hidden">
-            <div className="bg-green-100 px-4 py-3 border-b flex items-center justify-between">
+          <div className="bg-green-50 dark:bg-green-950 rounded-md border dark:border-green-800 overflow-hidden">
+            <div className="bg-green-100 dark:bg-green-900 px-4 py-3 border-b dark:border-green-800 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="font-semibold">Do: Urgent & Important</span>
+                <span className="font-semibold text-gray-900 dark:text-gray-50">
+                  Do: Urgent & Important
+                </span>
                 <Badge variant="default" className="ml-2">
                   {urgentImportant.length}
                 </Badge>
               </div>
             </div>
-            <div className="p-4 bg-green-50 min-h-[200px]">
+            <div className="p-4 bg-green-50 dark:bg-green-950 min-h-[200px]">
               <div className="space-y-2 mb-4">
                 {urgentImportant.length === 0 ? (
-                  <p className="text-sm text-muted-foreground py-2">
+                  <p className="text-sm text-muted-foreground dark:text-gray-300 py-2">
                     No tasks in this category
                   </p>
                 ) : (
@@ -393,8 +395,8 @@ export function EisenhowerMatrix({ tasks, view }: EisenhowerMatrixProps) {
         </Droppable>
 
         <Droppable id="not-urgent-important">
-          <div className="border rounded-md shadow-md bg-white overflow-hidden">
-            <div className="bg-orange-100 px-4 py-3 border-b flex items-center justify-between">
+          <div className="bg-orange-50 dark:bg-orange-900/30 rounded-md p-4 border dark:border-orange-700">
+            <div className="bg-orange-100 dark:bg-orange-800 px-4 py-3 border-b dark:border-orange-700 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <span className="font-semibold">
                   Schedule: Not Urgent & Important
@@ -404,10 +406,10 @@ export function EisenhowerMatrix({ tasks, view }: EisenhowerMatrixProps) {
                 </Badge>
               </div>
             </div>
-            <div className="p-4 bg-orange-50 min-h-[200px]">
+            <div className="p-4 bg-orange-50 dark:bg-orange-900/30 min-h-[200px]">
               <div className="space-y-2 mb-4">
                 {notUrgentImportant.length === 0 ? (
-                  <p className="text-sm text-muted-foreground py-2">
+                  <p className="text-sm text-muted-foreground dark:text-gray-300 py-2">
                     No tasks in this category
                   </p>
                 ) : (
@@ -426,8 +428,8 @@ export function EisenhowerMatrix({ tasks, view }: EisenhowerMatrixProps) {
         </Droppable>
 
         <Droppable id="urgent-not-important">
-          <div className="border rounded-md shadow-md bg-white overflow-hidden">
-            <div className="bg-blue-100 px-4 py-3 border-b flex items-center justify-between">
+          <div className="bg-blue-50 dark:bg-blue-900/30 rounded-md p-4 border dark:border-blue-700">
+            <div className="bg-blue-100 dark:bg-blue-800 px-4 py-3 border-b dark:border-blue-700 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <span className="font-semibold">
                   Delegate: Urgent & Not Important
@@ -437,10 +439,10 @@ export function EisenhowerMatrix({ tasks, view }: EisenhowerMatrixProps) {
                 </Badge>
               </div>
             </div>
-            <div className="p-4 bg-blue-50 min-h-[200px]">
+            <div className="p-4 bg-blue-50 dark:bg-blue-900/30 min-h-[200px]">
               <div className="space-y-2 mb-4">
                 {urgentNotImportant.length === 0 ? (
-                  <p className="text-sm text-muted-foreground py-2">
+                  <p className="text-sm text-muted-foreground dark:text-gray-300 py-2">
                     No tasks in this category
                   </p>
                 ) : (
@@ -459,8 +461,8 @@ export function EisenhowerMatrix({ tasks, view }: EisenhowerMatrixProps) {
         </Droppable>
 
         <Droppable id="not-urgent-not-important">
-          <div className="border rounded-md shadow-md bg-white overflow-hidden">
-            <div className="bg-red-100 px-4 py-3 border-b flex items-center justify-between">
+          <div className="bg-red-50 dark:bg-red-900/30 rounded-md p-4 border dark:border-red-700">
+            <div className="bg-red-100 dark:bg-red-800 px-4 py-3 border-b dark:border-red-700 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <span className="font-semibold">
                   Delete: Not Urgent & Not Important
@@ -470,10 +472,10 @@ export function EisenhowerMatrix({ tasks, view }: EisenhowerMatrixProps) {
                 </Badge>
               </div>
             </div>
-            <div className="p-4 bg-red-50 min-h-[200px]">
+            <div className="p-4 bg-red-50 dark:bg-red-900/30 min-h-[200px]">
               <div className="space-y-2 mb-4">
                 {notUrgentNotImportant.length === 0 ? (
-                  <p className="text-sm text-muted-foreground py-2">
+                  <p className="text-sm text-muted-foreground dark:text-gray-300 py-2">
                     No tasks in this category
                   </p>
                 ) : (

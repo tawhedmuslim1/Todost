@@ -38,7 +38,7 @@ export function EisenhowerInfo() {
         </AlertDialogHeader>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
-          <div className="border rounded-md p-4 bg-green-50">
+          <div className="border dark:border-green-800 rounded-md p-4 bg-green-50 dark:bg-green-950">
             <h3 className="font-bold text-lg mb-2">
               1. Do: Urgent & Important
             </h3>
@@ -51,7 +51,7 @@ export function EisenhowerInfo() {
             </p>
           </div>
 
-          <div className="border rounded-md p-4 bg-orange-50">
+          <div className="border dark:border-orange-800 rounded-md p-4 bg-orange-50 dark:bg-orange-950">
             <h3 className="font-bold text-lg mb-2">
               2. Schedule: Not Urgent & Important
             </h3>
@@ -64,7 +64,7 @@ export function EisenhowerInfo() {
             </p>
           </div>
 
-          <div className="border rounded-md p-4 bg-blue-50">
+          <div className="border dark:border-blue-800 rounded-md p-4 bg-blue-50 dark:bg-blue-950">
             <h3 className="font-bold text-lg mb-2">
               3. Delegate: Urgent & Not Important
             </h3>
@@ -77,7 +77,7 @@ export function EisenhowerInfo() {
             </p>
           </div>
 
-          <div className="border rounded-md p-4 bg-red-50">
+          <div className="border dark:border-red-800 rounded-md p-4 bg-red-50 dark:bg-red-950">
             <h3 className="font-bold text-lg mb-2">
               4. Delete: Not Urgent & Not Important
             </h3>
